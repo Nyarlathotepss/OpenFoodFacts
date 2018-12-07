@@ -23,7 +23,32 @@ r= requests.get('https://fr.openfoodfacts.org/categorie/boissons-lactees.json')
 r.text
 '''
 
-from Elements import API, Display
+from Elements import API, Display, Mysql_bdd
 
-toto = API()
-toto.communication_api('https://fr.openfoodfacts.org/categorie/coffee-drinks.json')
+list_category = ["boissons","snacks-sucres","produits-laitiers"]
+list_products = []
+info = API()
+mybdd = Mysql_bdd()
+k = 0   #indice
+url = None
+
+for category in list_category:
+    url = 'https://fr.openfoodfacts.org/cgi/search.pl?action=process&tagtype_0=categories&tag_contains_0=contains&tag_0='+category+'&sort_by=unique_scans_n&page_size=100&axis_x=energy&axis_y=products_n&action=display&json=1'
+    print(url)
+    info.communication_api(url)
+    while k < 101:
+        try :
+            list_products.append((info.json['products'][k]['product_name_fr'],info.json['products'][k]['nutrition_grade_fr']))
+        except :
+            print(category)
+        k += 1
+    k = 0
+
+for category in list_category:
+    try:
+        with mybdd.connection.cursor() as cursor:
+            sql = "INSERT INTO categorie (nom) VALUES (%s)"
+            cursor.execute(sql, category)
+        mybdd.connection.commit()
+    except Exception as e:
+        print(e)
