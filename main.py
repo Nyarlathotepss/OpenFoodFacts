@@ -23,7 +23,7 @@ r= requests.get('https://fr.openfoodfacts.org/categorie/boissons-lactees.json')
 r.text
 '''
 
-from Elements import API, Display, Mysql_bdd
+from Elements import API, Mysql_bdd
 
 list_category = ["boissons","snacks-sucres","produits-laitiers"]
 list_products = []
@@ -52,3 +52,13 @@ for category in list_category:
         mybdd.connection.commit()
     except Exception as e:
         print(e)
+
+try:
+    with mybdd.connection.cursor() as cursor:
+        sql = 'SELECT id,nom FROM categorie'
+        cursor.execute(sql)
+        all_info_cat = cursor.fetchone()
+        for info_cat in all_info_cat:
+            print(all_info_cat)
+except Exception as e:
+    print(e)

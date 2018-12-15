@@ -1,7 +1,7 @@
 import requests
 import pymysql
 
-class API :
+class API:
     '''Communicate with openfoodfact API '''
     def __init__(self):
         self.json = None
@@ -10,7 +10,7 @@ class API :
         self.r = requests.get(url)
         self.json = self.r.json()
 
-class Display :
+class Display:
     '''allow to display "text" from API '''
     def __init__(self):
         self.list_info = []
@@ -18,19 +18,15 @@ class Display :
     def print_info(self):
         print(list_info)
 
-class Mysql_bdd :
+class Mysql_bdd:
 
-    host = input("host name :")
-    user = input("user name :")
-    psw =  input("password :")
-    db = input("database name :")
+    host = "localhost"
+    user = "root"
+    psw =  "password"
+    db = "openfoodfact"
 
     connection = pymysql.connect(host=host,
                                  user=user,
                                  password=psw,
                                  db=db,
-                                 charset='utf8mb4',
-                                 cursorclass=pymysql.cursors.DictCursor)
-
-
-
+                                 charset='utf8mb4')
