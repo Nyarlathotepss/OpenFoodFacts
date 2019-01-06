@@ -16,6 +16,8 @@ class Display:
     def __init__(self):
         self.category_info = None
         self.produit_info = None
+        self.list_pos = ("yes", "y", "oui")
+        self.list_neg = ("no", "n", "non")
 
     def disp_info_cat(self, bdd):
         with bdd.connection.cursor() as cursor:
@@ -47,6 +49,16 @@ class Display:
             except Exception as e:
                 print(e)
 
+    def disp_favo(self, bdd):
+        with bdd.connection.cursor() as cursor:
+            try:
+                sql = "SELECT * FROM favorie"
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                print(result)
+            except Exception as e:
+                print(e)
+
 class Mysql_bdd:
     '''Allow to connect to mysql's bdd'''
 
@@ -60,3 +72,15 @@ class Mysql_bdd:
                                  password=psw,
                                  db=db,
                                  charset='utf8mb4')
+
+    def insert_fav(self,user_choice):
+        with self.connection.cursor() as cursor:
+            try:
+                sql = "SELECT * FROM produit WHERE id = '{0}'".format(user_choice)
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                print(result)
+                sql = "INSERT INTO favorie(nom, ingredient, nutriscore, magasin) VALUES (%s, %s, %s, %s)"
+                cursor.execute(sql, result[1], result[2], result[3], result[4])
+            except Exception as e:
+                print(e)
