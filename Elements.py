@@ -6,7 +6,7 @@ class API:
     def __init__(self):
         self.json = None
 
-    def communication_api(self,url):
+    def communication_api(self, url):
         self.r = requests.get(url)
         self.json = self.r.json()
 
@@ -35,7 +35,7 @@ class Display:
                 sql = "SELECT id, nom, nutriscore FROM produit WHERE categorie = '{0}'".format(user_input)
                 cursor.execute(sql)
                 result = cursor.fetchall()
-                print(result)
+                return(result)
             except Exception as e:
                 print(e)
 
@@ -45,14 +45,14 @@ class Display:
                 sql = "SELECT id, nom, nutriscore FROM produit WHERE categorie = '{0}' AND nutriscore < (SELECT nutriscore FROM produit WHERE id = '{1}') LIMIT 5".format(user_input_cat, user_input_prod)
                 cursor.execute(sql)
                 result = cursor.fetchall()
-                print(result)
+                return(result)
             except Exception as e:
                 print(e)
 
     def disp_favo(self, bdd):
         with bdd.connection.cursor() as cursor:
             try:
-                sql = "SELECT * FROM favorie"
+                sql = "SELECT * FROM produit WHERE id IN (SELECT id FROM favorie)"
                 cursor.execute(sql)
                 result = cursor.fetchall()
                 print(result)
@@ -76,11 +76,8 @@ class Mysql_bdd:
     def insert_fav(self,user_choice):
         with self.connection.cursor() as cursor:
             try:
-                sql = "SELECT * FROM produit WHERE id = '{0}'".format(user_choice)
-                cursor.execute(sql)
-                result = cursor.fetchall()
-                print(result)
-                sql = "INSERT INTO favorie(nom, ingredient, nutriscore, magasin) VALUES (%s, %s, %s, %s)"
-                cursor.execute(sql, result[1], result[2], result[3], result[4])
+                sql = "INSERT INTO favorie(id) VALUES (%s)"
+                cursor.execute(sql, user_choice)
             except Exception as e:
                 print(e)
+        self.connection.commit()

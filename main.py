@@ -9,7 +9,7 @@ url = None
 LIMIT_PRODUCT = 101
 disp_obj = Display()
 
-
+'''
 for i, category in enumerate(list_category):# On balaie les 3 catégories
     try:# Pour chaque categorie on injecte cela dans bdd SQL
         with mybdd.connection.cursor() as cursor:
@@ -37,7 +37,7 @@ for i, category in enumerate(list_category):# On balaie les 3 catégories
         mybdd.connection.commit()
         k += 1
     k = 0
-
+'''
 while True:
     disp_favorite = input("Do you want to show favorites items ? :").lower()
     if disp_favorite in disp_obj.list_pos:
@@ -47,16 +47,25 @@ while True:
         break
     else:
         print("your input is wrong, try again")
-print("blabla:",end="")
+
+print("The differents categories:",end="")
 disp_obj.disp_info_cat(mybdd)
 select_cat = input("Enter your category's number :")
-disp_obj.disp_info_prod(mybdd, select_cat)
+
+all_list_products = disp_obj.disp_info_prod(mybdd, select_cat)
+for i in all_list_products:
+    print(i)
 select_prod = input("Enter your product's number :")
-disp_obj.sel_alt_prod(mybdd, select_cat, select_prod)
+
+print("There are alternativ products:")
+alt_list_products = disp_obj.sel_alt_prod(mybdd, select_cat, select_prod)
+for i in alt_list_products:
+    print(i)
+
 last_select_prod = input("Enter your product's number :")
 while True:
-    save_favorite = input("Do you want to save your item's choice ? :")
-    if save_favorite in disp_obj.list_pos :
+    save_favorite = input("Do you want to save your item's choice ? :").lower()
+    if save_favorite in disp_obj.list_pos:
         mybdd.insert_fav(last_select_prod)
         disp_obj.disp_favo(mybdd)
         break
