@@ -1,7 +1,7 @@
-from Elements import API, Mysql_bdd, Display, Injection
+from Elements import API, MysqlBdd, Display, Injection
 
 info = API()
-mybdd = Mysql_bdd()
+mybdd = MysqlBdd()
 disp_obj = Display()
 inj_data = Injection()
 
@@ -24,7 +24,7 @@ while True:
         print("your input is wrong, try again")
 
 cat = disp_obj.disp_info_cat(mybdd)
-print("The differents categories:")
+print("The different's categories:")
 for t in cat:
     print(t[0], ":", t[1])
 select_cat = input("Enter your category's number :")
@@ -34,7 +34,7 @@ for product in all_list_products:
     print(product[0], ":", product[1], "-", product[2], "-", product[3], "-", product[4], "-", product[5])
 select_prod = input("Enter your product's number :")
 
-print("There are alternativ products:")
+print("There are alternative products:")
 alt_list_products = disp_obj.sel_alt_prod(mybdd, select_cat, select_prod)
 for alt in alt_list_products:
     print(alt[0], ":", alt[1], "-", alt[2])
