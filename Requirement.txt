@@ -1,2 +1,0 @@
-Pymysql 0.9.2
-Requests 2.20.1
