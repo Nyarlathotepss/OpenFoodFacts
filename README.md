@@ -11,12 +11,12 @@ Vous devez importer les différentes bibliothèques necessaires à l'aide du fichie
 ## Créer la base de données
 ----------------------------
 
-Connectez vous tout d'abord sur votre bdd MySQL et positionnez vous sur la base dans laquelle vous voulez créer les tables
-Une fois cela fait, dans python éxécuter le programme tab_bdd.py
+Dans votre console python éxecuter le programme tab_bdd.py.
+Saisissez les différentes informations demandées concernant votre bdd.
 Le programme vous propose 2 choix possibles : destruction ou création
-Sélectionner c pour créer les différentes tables
+Sélectionner "c" pour créer les différentes tables, "d" pour supprimer et "dc" pour supprimer puis créer.
 
-Une fois cette étape réalisée le programme injecte les données dans les différentes tables
+Après la création des tables le programme injecte les informations des produits directement dans la bdd.
 
 
 ## Utiliser le programme utilisateur

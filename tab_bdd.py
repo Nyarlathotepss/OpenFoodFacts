@@ -3,6 +3,7 @@ from elements import Injection, API
 
 
 class bdd:
+    """Connect to dbb and creating or deleting the tables"""
 
     def __init__(self):
         host = input("host name :")
@@ -17,6 +18,7 @@ class bdd:
                                           charset='utf8mb4')
 
     def creation(self):
+        """created 3 tables :categorie, produit and favorie"""
         with self.connection.cursor() as cursor:
             try:
                 sql = "CREATE TABLE Categorie(\
@@ -45,6 +47,7 @@ class bdd:
                 cursor.execute(sql)
                 sql = "CREATE TABLE Favori(\
                 id SMALLINT,\
+                id_produit_substitue SMALLINT,\
                 PRIMARY KEY(id)\
                 )\
                 ENGINE=INNODB;"
@@ -54,6 +57,7 @@ class bdd:
                 print(e)
 
     def destruction(self):
+        """deleted the 3 tables"""
 
         with self.connection.cursor() as cursor:
             try:
@@ -77,8 +81,8 @@ if __name__ == '__main__':
         my_bdd.destruction()
     elif action == "c":
         my_bdd.creation()
+        injection_data.api_to_bdd(my_bdd, get_information_api)
     elif action == "dc":
         my_bdd.destruction()
         my_bdd.creation()
-
-    injection_data.api_to_bdd(my_bdd, get_information_api)
+        injection_data.api_to_bdd(my_bdd, get_information_api)

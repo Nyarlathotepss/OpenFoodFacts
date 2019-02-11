@@ -36,8 +36,8 @@ class Display:
         """display products information from bdd"""
         with bdd.connection.cursor() as cursor:
             try:
-                sql = "SELECT id, nom, nutriscore, ingredient, magasin," \
-                      " url FROM produit WHERE categorie =%s"
+                sql = "SELECT id, nom, nutriscore, ingredient, magasin, \
+                       url FROM produit WHERE categorie = %s"
                 cursor.execute(sql, user_input)
                 result = cursor.fetchall()
                 print(result)
@@ -49,23 +49,31 @@ class Display:
         """select 5 different's products with nutriscore smaller than the user's choice"""
         with bdd.connection.cursor() as cursor:
             try:
-                sql = "SELECT id, nom, nutriscore FROM produit WHERE categorie = '{0}' \
-                AND nutriscore < (SELECT nutriscore FROM produit WHERE id = '{1}') LIMIT 5"\
-                .format(user_input_cat, user_input_prod)
-                cursor.execute(sql)
+                sql = "SELECT id, nom, nutriscore FROM produit WHERE categorie = %s \
+                AND nutriscore < (SELECT nutriscore FROM produit WHERE id = %s) LIMIT 5"
+                cursor.execute(sql, (user_input_cat, user_input_prod))
+                print(user_input_cat, user_input_prod)
                 result = cursor.fetchall()
                 return result
             except Exception as e:
                 print(e)
 
-    def display_favories(self, bdd):
-        """display favories information from bdd"""
+    def display_favorites(self, bdd):
+        """display favorites information from bdd"""
         with bdd.connection.cursor() as cursor:
             try:
                 sql = "SELECT * FROM produit WHERE id IN (SELECT id FROM favori)"
                 cursor.execute(sql)
-                result = cursor.fetchall()
-                print(result)
+                result = cursor.fetchone()
+                sql = "SELECT * FROM produit WHERE id IN (SELECT id_produit_substitue FROM favori)"
+                cursor.execute(sql)
+                result1 = cursor.fetchall()
+                if result:
+                    print(result)
+                    print("substitute of :")
+                    print(result1)
+                else:
+                    print("Favorites is empty")
             except Exception as e:
                 print(e)
 
@@ -85,14 +93,14 @@ class MysqlBdd:
                                           db=db,
                                           charset='utf8mb4')
 
-    def insert_fav(self, user_id_choice):
-        """insert favori information to bdd"""
+    def insert_fav(self, id_alternative_product, id_product):
+        """insert favorite information to bdd"""
         with self.connection.cursor() as cursor:
             try:
-                sql = "INSERT INTO favori(id) VALUES (%s)"
-                cursor.execute(sql, user_id_choice)
+                sql = "INSERT INTO favori(id,id_produit_substitue) VALUES (%s, %s)"
+                cursor.execute(sql, (id_alternative_product, id_product))
             except pymysql.Error:
-                print('This product already exist in your favories')
+                print('This product already exist in yours favorites')
         self.connection.commit()
 
 
@@ -106,11 +114,10 @@ class Injection:
         self.k = 0
         self.list_names_products = []
 
-
     def api_to_bdd(self, bdd, api):
         """for each categories name in list_category the method got 100 products from api
         then insert one by one into the database"""
-        for i, category in enumerate(self.list_category):  # for each category > insert into bdd
+        for i, category in enumerate(self.list_category):  # for each category > insert the category into bdd
             try:
                 with bdd.connection.cursor() as cursor:
                     sql = "INSERT INTO categorie (nom) VALUES (%s)"
