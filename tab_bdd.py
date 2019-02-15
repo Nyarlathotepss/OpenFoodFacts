@@ -2,7 +2,7 @@ import pymysql
 from elements import Injection, API
 
 
-class bdd:
+class Bdd:
     """Connect to dbb and creating or deleting the tables"""
 
     def __init__(self):
@@ -74,7 +74,7 @@ class bdd:
 
 if __name__ == '__main__':
     injection_data = Injection()
-    my_bdd = bdd()
+    my_bdd = Bdd()
     get_information_api = API()
     action = input("what do you want ? destruction (press d), creation (press c) or both (press dc) ?:")
     if action == "d":

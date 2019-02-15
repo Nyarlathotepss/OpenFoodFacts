@@ -38,7 +38,6 @@ class Interface:
     def display_product_choice(self, products):
         """Display the different product to user"""
         print("The different's products:")
-        print(products)
         for product in products:
             print(product[0], ":", product[1], "-", product[2], "-", product[3], "-", product[4], "-", product[5])
             self.list_id_product.append(product[0])

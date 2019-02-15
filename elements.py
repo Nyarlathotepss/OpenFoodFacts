@@ -40,7 +40,6 @@ class Display:
                        url FROM produit WHERE categorie = %s"
                 cursor.execute(sql, user_input)
                 result = cursor.fetchall()
-                print(result)
                 return result
             except Exception as e:
                 print(e)
@@ -52,7 +51,6 @@ class Display:
                 sql = "SELECT id, nom, nutriscore FROM produit WHERE categorie = %s \
                 AND nutriscore < (SELECT nutriscore FROM produit WHERE id = %s) LIMIT 5"
                 cursor.execute(sql, (user_input_cat, user_input_prod))
-                print(user_input_cat, user_input_prod)
                 result = cursor.fetchall()
                 return result
             except Exception as e:
