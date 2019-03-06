@@ -8,11 +8,11 @@ lien [trello] (https://trello.com/millet68/boards)!
 Ce document a pour but d'expliquer l'utilisation du programme.
 Vous devez importer les différentes bibliothèques necessaires à l'aide du fichier requirements.txt
 
-## Créer la base de données
+## Créer la base de données mysql
 ----------------------------
 
 Dans votre console python éxecuter le programme tab_bdd.py.
-Saisissez les différentes informations demandées concernant votre bdd.
+Saisissez les différentes informations demandées concernant votre bdd mysql.
 Le programme vous propose 2 choix possibles : destruction ou création
 Sélectionner "c" pour créer les différentes tables, "d" pour supprimer et "dc" pour supprimer puis créer.
 
