@@ -74,21 +74,21 @@ class Interface:
             if user_select not in list_id:
                 user_select = input("Your input is wrong, try again :")
             else:
-                break
+                return user_select
 
     def get_category(self):
         """Display category > let user take a choice > check if the input is correct"""
         category = self.display_obj.display_info_category(self.mybdd)  # got info from bdd about category (id and name)
         self.display_category_choice(category)  # display the different categories
         self.select_category = input("Enter your category's number :")  # user choice id
-        self.check_user_choice(self.list_id_category, self.select_category)  # check if the id is correct
+        self.select_category = self.check_user_choice(self.list_id_category, self.select_category)  # check id
 
     def get_product(self):
         """Display product > let user take a choice > check if the input is correct"""
         all_list_products = self.display_obj.display_info_product(self.mybdd, self.select_category)
         self.display_product_choice(all_list_products)
         self.select_product = input("Enter your product's number :")
-        self.check_user_choice(self.list_id_product, self.select_product)
+        self.select_product = self.check_user_choice(self.list_id_product, self.select_product)
 
     def get_alternative_product(self):
         """Display alternative product > let user take a choice > check if the input is correct"""
@@ -96,7 +96,7 @@ class Interface:
                                                                                 self.select_product)
         self.display_alternative_product(alternative_list_products)
         self.select_alternative_product = input("Enter your product's number :")
-        self.check_user_choice(self.list_id_alternative, self.select_alternative_product)
+        self.select_alternative_product = self.check_user_choice(self.list_id_alternative, self.select_alternative_product)
 
 
 if __name__ == '__main__':
