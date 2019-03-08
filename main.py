@@ -65,6 +65,7 @@ class Interface:
     def check_user_choice(self, list_id, user_select):
         """Check is the user input is correct"""
         while True:
+            print(user_select)
             try:
                 user_select = int(user_select)
             except ValueError:
@@ -100,13 +101,18 @@ class Interface:
 
 if __name__ == '__main__':
 
+    list_response = Display()
     display_user = Interface()
     display_user.display_favorites()
 
-    display_user.get_category()
-    display_user.get_product()
-    display_user.get_alternative_product()
+    while True:
+        display_user.get_category()
+        display_user.get_product()
+        display_user.get_alternative_product()
 
-    display_user.save_favory()
+        display_user.save_favory()
+        response_exit_loop = input("Do you want to continue ?:")
+        if response_exit_loop not in list_response.list_pos:
+            break
 
 

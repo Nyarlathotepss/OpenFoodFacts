@@ -7,6 +7,7 @@ class API:
     """Communicate with API"""
     def __init__(self):
         self.json = None
+        self.r = None
 
     def communication_api(self, url, dict_parameters):
         """got .json from api"""
@@ -49,7 +50,7 @@ class Display:
         with bdd.connection.cursor() as cursor:
             try:
                 sql = "SELECT id, nom, nutriscore FROM produit WHERE categorie = %s \
-                AND nutriscore < (SELECT nutriscore FROM produit WHERE id = %s) LIMIT 5"
+                AND nutriscore <= (SELECT nutriscore FROM produit WHERE id = %s) LIMIT 5"
                 cursor.execute(sql, (user_input_cat, user_input_prod))
                 result = cursor.fetchall()
                 return result
